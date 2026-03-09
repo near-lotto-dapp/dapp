@@ -1,0 +1,11 @@
+# Node.js / Фронтенд
+node_modules/
+dist/
+.env
+
+# Rust / Бекенд
+target/
+out/
+
+# Системні файли Mac та IDE
+.DS_Store.idea/
