@@ -1,0 +1,20 @@
+name: Daily Draw 🎲
+
+on:
+  schedule:
+    # Запуск щодня о 00:00 UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Дозволяє запускати вручну для тесту
+
+jobs:
+  draw_winner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Execute Daily Draw
+        env:
+          NEAR_PRIVATE_KEY: ${{ secrets.NEAR_PRIVATE_KEY }}
+        run: |
+          npx near-cli-rs@latest contract call-function as-transaction pool.kyba.testnet draw_winner json-args '{}' prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' sign-as kyba.testnet network-config testnet sign-with-plaintext-private-key --sign-with-plaintext-private-key "$NEAR_PRIVATE_KEY" send
