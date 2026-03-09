@@ -16,4 +16,4 @@ jobs:
         env:
           NEAR_KEY: ${{ secrets.NEAR_MAINNET_PRIVATE_KEY }}
         run: |
-          npx near-cli-rs@latest contract call-function as-transaction pool-dapp-jomo.near draw_winner json-args '{}' prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' sign-as pool-dapp-jomo.near network-config mainnet sign-with-plaintext-private-key "${{ secrets.NEAR_MAINNET_PRIVATE_KEY }}" send
+          npx near-cli-rs@latest contract call-function as-transaction pool-dapp-jomo.near draw_winner json-args '{}' prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' sign-as crypto-jomo.near network-config mainnet sign-with-plaintext-private-key "${{ secrets.NEAR_MAINNET_PRIVATE_KEY }}" send
