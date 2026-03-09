@@ -1,10 +1,9 @@
-name: Daily Draw 🎲
+name: JOMO Daily Draw Mainnet 🎲
 
 on:
   schedule:
-    # Запуск щодня о 00:00 UTC
-    - cron: '0 0 * * *'
-  workflow_dispatch: # Дозволяє запускати вручну для тесту
+    - cron: '0 18 * * *'
+  workflow_dispatch:
 
 jobs:
   draw_winner:
@@ -13,8 +12,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Execute Daily Draw
+      - name: Execute Mainnet Draw
         env:
-          NEAR_PRIVATE_KEY: ${{ secrets.NEAR_PRIVATE_KEY }}
+          NEAR_KEY: ${{ secrets.NEAR_MAINNET_PRIVATE_KEY }}
         run: |
-          npx near-cli-rs@latest contract call-function as-transaction pool.kyba.testnet draw_winner json-args '{}' prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' sign-as kyba.testnet network-config testnet sign-with-plaintext-private-key "${{ secrets.NEAR_PRIVATE_KEY }}" send
+          npx near-cli-rs@latest contract call-function as-transaction pool-dapp-jomo.near draw_winner json-args '{}' prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' sign-as pool-dapp-jomo.near network-config mainnet sign-with-plaintext-private-key "$NEAR_KEY" send
