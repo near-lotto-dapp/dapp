@@ -8,7 +8,7 @@ import { NearProvider } from 'near-connect-hooks';
 
 function App () {
   return (
-      <NearProvider config={{ network: 'testnet' }}>
+      <NearProvider config={{ network: 'mainnet' }}>
       <BrowserRouter>
         <Navigation />
         <Routes>

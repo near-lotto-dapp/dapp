@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNearWallet } from 'near-connect-hooks';
 
-const CONTRACT_ID = 'pool.kyba.testnet';
+const CONTRACT_ID = 'crypto-jomo.near';
 
 interface useNearHook {
     signedAccountId: string | null;
@@ -10,7 +10,6 @@ interface useNearHook {
     viewFunction: (params: { contractId: string; method: string; args?: Record<string, unknown> }) => Promise<any>;
 }
 
-// Додаємо інтерфейс для записів історії
 interface DrawRecord {
     winner_id: string;
     amount: string;
@@ -18,29 +17,28 @@ interface DrawRecord {
 }
 
 export default function Home() {
-    // Усі хуки стану мають бути ВСЕРЕДИНІ компонента
     const [ticketsCount, setTicketsCount] = useState<number>(0);
     const [poolSizeNear, setPoolSizeNear] = useState<string>("0");
     const [buyCount, setBuyCount] = useState<number>(1);
     const [lastWinner, setLastWinner] = useState<{account_id: string, amount: string} | null>(null);
 
-    // Стейти для Статистики та історії
+    // history
     const [globalStats, setGlobalStats] = useState({ totalWon: "0.0000", totalFee: "0.0000" });
     const [drawHistory, setDrawHistory] = useState<DrawRecord[]>([]);
 
-    // Стейти для Таймера
+    // timeout
     const [nextDrawTime, setNextDrawTime] = useState<number>(0);
     const [timeLeft, setTimeLeft] = useState<string>("00:00:00");
 
     const { signedAccountId, signIn, callFunction, viewFunction } = useNearWallet() as unknown as useNearHook;
 
-    // --- ОСНОВНИЙ ЕФЕКТ: Запит даних з блокчейну (кожні 5 секунд) ---
+    // blockchain update front every 5 sec
     useEffect(() => {
         if (!viewFunction) return;
 
         const fetchPoolData = async () => {
             try {
-                // 1. Інфо про пул
+                // info about pool
                 const poolInfo = await viewFunction({
                     contractId: CONTRACT_ID,
                     method: 'get_pool_info'
@@ -50,7 +48,7 @@ export default function Home() {
                     setPoolSizeNear((Number(poolInfo[1]) / 1e24).toFixed(2));
                 }
 
-                // 2. Останній переможець
+                // last winner
                 const winnerInfoStr = await viewFunction({
                     contractId: CONTRACT_ID,
                     method: 'get_last_winner'
@@ -63,7 +61,7 @@ export default function Home() {
                     });
                 }
 
-                // 3. Глобальна статистика
+                // global statistics
                 const statsInfo = await viewFunction({
                     contractId: CONTRACT_ID,
                     method: 'get_global_stats'
@@ -75,7 +73,7 @@ export default function Home() {
                     });
                 }
 
-                // 4. Історія розіграшів
+                // draw history
                 const historyInfoStr = await viewFunction({
                     contractId: CONTRACT_ID,
                     method: 'get_draw_history'
@@ -85,7 +83,7 @@ export default function Home() {
                     setDrawHistory(parsedHistory.reverse());
                 }
 
-                // 5. Час наступного розіграшу (НОВЕ)
+                // time for the next draw
                 const nextDrawStr = await viewFunction({
                     contractId: CONTRACT_ID,
                     method: 'get_next_draw_time'
@@ -95,7 +93,7 @@ export default function Home() {
                 }
 
             } catch (error) {
-                console.log("Очікування даних з контракту...", error);
+                console.log("Waiting for data from the contract...", error);
             }
         };
 
@@ -105,7 +103,7 @@ export default function Home() {
     }, [viewFunction]);
 
 
-    // --- НОВИЙ ЕФЕКТ: Живий таймер (оновлюється кожну секунду) ---
+    // every second timer
     useEffect(() => {
         if (!nextDrawTime) return;
 
@@ -114,7 +112,7 @@ export default function Home() {
             const diff = nextDrawTime - now;
 
             if (diff <= 0) {
-                setTimeLeft("Час розіграшу! 🎲");
+                setTimeLeft("Draw time! 🎲");
             } else {
                 const h = Math.floor((diff / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
                 const m = Math.floor((diff / 1000 / 60) % 60).toString().padStart(2, '0');
@@ -132,7 +130,7 @@ export default function Home() {
             if (signIn) signIn();
             return;
         }
-        // Оновлено для 0.10 NEAR (23 нулі)
+        // 0.10 NEAR (23 zeros)
         const depositYocto = (BigInt(buyCount) * BigInt("100000000000000000000000")).toString();
         try {
             await callFunction({
@@ -142,7 +140,7 @@ export default function Home() {
                 deposit: depositYocto
             });
         } catch (error) {
-            console.error("Помилка під час транзакції:", error);
+            console.error("Error during the transaction: ", error);
         }
     };
 
@@ -158,41 +156,41 @@ export default function Home() {
     return (
         <main className="container mt-4 mb-5">
             <h1>JOMO Pool 🧘‍♂️</h1>
-            <p>Накопичуй крипту, ігноруй шум. Спокійно рухаємося до цілі!</p>
+            <p>Stack crypto, ignore the noise. Steadily moving toward the goal!</p>
 
-            {/* Плашка останнього переможця */}
+            {/* block for last winner */}
             {lastWinner && (
                 <div className="alert alert-success border-0 shadow-sm mb-4 d-flex align-items-center" style={{ borderRadius: '15px' }}>
                     <div className="fs-1 me-3">🏆</div>
                     <div>
-                        <h5 className="mb-1 fw-bold">Останній джекпот розіграно!</h5>
+                        <h5 className="mb-1 fw-bold">The last jackpot has been drawn!</h5>
                         <p className="mb-0">
-                            Гравець <strong>{lastWinner.account_id}</strong> забрав <strong>{lastWinner.amount} NEAR</strong>
+                            The player <strong>{lastWinner.account_id}</strong> won <strong>{lastWinner.amount} NEAR</strong>
                         </p>
                     </div>
                 </div>
             )}
 
             <div className="row">
-                {/* Головна картка пулу */}
+                {/* main card of pool */}
                 <div className="col-md-7 mb-4">
-                    {/* НОВИЙ БЛОК: Живий таймер */}
+                    {/* live timer */}
                     {nextDrawTime > 0 && (
                         <div className="alert alert-warning text-center shadow-sm mb-4" style={{ borderRadius: '15px' }}>
-                            <h5 className="mb-1 text-dark">До наступного розіграшу:</h5>
+                            <h5 className="mb-1 text-dark">Time until the next draw: </h5>
                             <h2 className="mb-0 fw-bold font-monospace text-danger">{timeLeft}</h2>
                         </div>
                     )}
 
                     <div className="card p-4 shadow-sm h-100" style={{ borderRadius: '15px' }}>
-                        <h2>Поточний котел: <strong>{poolSizeNear} NEAR</strong></h2>
-                        <h3>Придбано квитків: {ticketsCount}</h3>
-                        <p className="text-muted">Ціна 1 квитка: 0.10 NEAR</p>
+                        <h2>Current prize pool: <strong>{poolSizeNear} NEAR</strong></h2>
+                        <h3>Tickets purchased: {ticketsCount}</h3>
+                        <p className="text-muted">Price for 1 ticket: 0.10 NEAR</p>
 
                         <hr className="my-4" />
 
                         <div className="buy-section">
-                            <label className="form-label fw-bold">Скільки квитків купуємо?</label>
+                            <label className="form-label fw-bold">How many tickets do you want to buy?</label>
                             <div className="input-group mb-2" style={{ maxWidth: '400px' }}>
                                 <input
                                     type="number"
@@ -205,46 +203,46 @@ export default function Home() {
                                     className={`btn ${signedAccountId ? 'btn-success' : 'btn-primary'}`}
                                     onClick={handleBuyTickets}
                                 >
-                                    {signedAccountId ? `Купити за ${(buyCount * 0.10).toFixed(2)} NEAR` : "Підключити гаманець"}
+                                    {signedAccountId ? `Buy for ${(buyCount * 0.10).toFixed(2)} NEAR` : "Connect wallet"}
                                 </button>
                             </div>
 
                             {signedAccountId && (
                                 <p className="text-success small mt-2">
-                                    Підключено: <strong>{signedAccountId}</strong>
+                                    Connected wallet: <strong>{signedAccountId}</strong>
                                 </p>
                             )}
                         </div>
                     </div>
                 </div>
 
-                {/* Картка глобальної статистики */}
+                {/* card for global statistics */}
                 <div className="col-md-5 mb-4">
                     <div className="card p-4 shadow-sm h-100 bg-light" style={{ borderRadius: '15px' }}>
-                        <h4 className="mb-4">🌍 Глобальна статистика</h4>
+                        <h4 className="mb-4">🌍 Global statistics</h4>
                         <div className="mb-3">
-                            <span className="text-muted d-block">Всього розіграно гравцям:</span>
+                            <span className="text-muted d-block">Total prize pool distributed to players: </span>
                             <span className="fs-3 fw-bold text-success">{globalStats.totalWon} NEAR</span>
                         </div>
                         <div>
-                            <span className="text-muted d-block">Зароблено (3% JOMO Fee):</span>
+                            <span className="text-muted d-block">Total fee: </span>
                             <span className="fs-4 fw-bold text-primary">{globalStats.totalFee} NEAR</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Таблиця історії розіграшів */}
+            {/* table of history */}
             {drawHistory.length > 0 && (
                 <div className="card p-4 shadow-sm" style={{ borderRadius: '15px' }}>
-                    <h4 className="mb-4">📜 Історія розіграшів</h4>
+                    <h4 className="mb-4">📜 Draw history</h4>
                     <div className="table-responsive">
                         <table className="table table-hover align-middle">
                             <thead className="table-light">
                             <tr>
-                                <th>Дата та час (UTC)</th>
-                                <th>Гаманець переможця</th>
-                                <th className="text-end">Сума виграшу</th>
+                                <th>Date and time (UTC)</th>
+                                <th>Winner's wallet</th>
+                                <th className="text-end">Winning amount</th>
                             </tr>
                             </thead>
                             <tbody>
