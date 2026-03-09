@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNearWallet } from 'near-connect-hooks';
 
-const CONTRACT_ID = 'crypto-jomo.near';
+const CONTRACT_ID = 'pool-dapp-jomo.near';
 
 interface useNearHook {
     signedAccountId: string | null;
