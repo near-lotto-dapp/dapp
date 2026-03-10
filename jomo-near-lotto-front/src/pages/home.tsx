@@ -27,6 +27,10 @@ export default function Home() {
     const [ticketsCount, setTicketsCount] = useState<number>(0);
     const [poolSizeNear, setPoolSizeNear] = useState<string>("0");
     const [buyCount, setBuyCount] = useState<number>(1);
+
+    // Новий стейт для суми в QR-коді (за замовчуванням 0.1 NEAR = 1 квиток)
+    const [qrDepositAmount, setQrDepositAmount] = useState<string>("0.1");
+
     const [lastWinner, setLastWinner] = useState<{account_id: string, amount: string} | null>(null);
 
     const [globalStats, setGlobalStats] = useState({ totalWon: "0.0000", totalFee: "0.0000" });
@@ -36,6 +40,9 @@ export default function Home() {
     const [timeLeft, setTimeLeft] = useState<string>("00:00:00");
 
     const { signedAccountId, signIn, callFunction, viewFunction } = useNearWallet() as unknown as useNearHook;
+
+    // Динамічне посилання для MyNearWallet
+    const qrLink = `https://app.mynearwallet.com/send-money/${CONTRACT_ID}?amount=${qrDepositAmount}`;
 
     useEffect(() => {
         localStorage.setItem('lang', lang);
@@ -155,7 +162,6 @@ export default function Home() {
     return (
         <main className="container mt-4 mb-5">
             <div className="d-flex justify-content-end gap-2 mb-2 pt-2">
-                {/* Кнопка EN */}
                 <button
                     className="btn btn-sm"
                     onClick={() => setLang('en')}
@@ -172,7 +178,6 @@ export default function Home() {
                     EN
                 </button>
 
-                {/* Кнопка UA */}
                 <button
                     className="btn btn-sm"
                     onClick={() => setLang('ua')}
@@ -238,20 +243,37 @@ export default function Home() {
                                 </button>
                             </div>
 
-                            {/* QR Code Section */}
-                            <div className="mt-4 p-3 border rounded bg-white text-center shadow-sm" style={{ borderRadius: '12px' }}>
-                                <h6 className="fw-bold mb-3">{lang === 'ua' ? "Або відправте NEAR напряму" : "Or send NEAR directly"}</h6>
+                            {/* --- QR-коду --- */}
+                            <div className="mt-4 p-4 border rounded bg-white text-center shadow-sm" style={{ borderRadius: '12px' }}>
+                                <h5 className="fw-bold mb-3">{lang === 'ua' ? "Швидка покупка через QR" : "Quick Buy via QR"}</h5>
 
-                                <div className="mb-3">
+                                <label className="form-label text-muted small mb-1">
+                                    {lang === 'ua' ? "Сума NEAR (наприклад, 0.5 = 5 квитків):" : "NEAR amount (e.g., 0.5 = 5 tickets):"}
+                                </label>
+                                <div className="input-group mb-3 mx-auto" style={{ maxWidth: '200px' }}>
+                                    <input
+                                        type="number"
+                                        className="form-control text-center font-monospace"
+                                        value={qrDepositAmount}
+                                        min="0.1"
+                                        step="0.1"
+                                        onChange={(e) => setQrDepositAmount(e.target.value)}
+                                    />
+                                    <span className="input-group-text bg-light">NEAR</span>
+                                </div>
+
+                                <div className="mb-3 d-flex justify-content-center">
+                                    {/* generated link for QRCode */}
                                     <QRCodeSVG
-                                        value={CONTRACT_ID}
-                                        size={160}
-                                        level={"H"}
+                                        value={qrLink}
+                                        size={180}
+                                        level={"M"}
                                         includeMargin={true}
+                                        style={{ border: '1px solid #dee2e6', borderRadius: '8px' }}
                                     />
                                 </div>
 
-                                <div className="input-group mb-2">
+                                <div className="input-group mb-2 mx-auto" style={{ maxWidth: '350px' }}>
                                     <input
                                         type="text"
                                         className="form-control form-control-sm text-center font-monospace"
@@ -265,15 +287,16 @@ export default function Home() {
                                             alert(lang === 'ua' ? "Адресу скопійовано!" : "Address copied!");
                                         }}
                                     >
-                                        📋
+                                        📋 {lang === 'ua' ? "Копіювати" : "Copy"}
                                     </button>
                                 </div>
                                 <small className="text-muted" style={{ fontSize: '0.75rem' }}>
                                     {lang === 'ua'
-                                        ? "Відправте кратну суму (0.1, 0.5, 1.0 NEAR), щоб отримати квитки автоматично."
-                                        : "Send multiples of (0.1, 0.5, 1.0 NEAR) NEAR to receive tickets automatically."}
+                                        ? "Відскануйте, щоб відкрити гаманець із готовим переказом."
+                                        : "Scan to open your wallet with a pre-filled transfer."}
                                 </small>
                             </div>
+                            {/* --- Кінець секції QR-коду --- */}
 
                             {signedAccountId && (
                                 <p className="text-success small mt-2">
@@ -327,7 +350,6 @@ export default function Home() {
                 </div>
             )}
 
-            {/* --- About Section Start --- */}
             <section className="about-section mt-5 p-4 bg-light rounded shadow-sm" style={{ borderRadius: '15px' }}>
                 <h3 className="mb-4 text-center" style={{ color: '#212529' }}>
                     {t.about}
@@ -373,7 +395,6 @@ export default function Home() {
                     <p>{lang === 'ua' ? "Адреса контракту" : "Contract Address"}: <code>pool-dapp-jomo.near</code></p>
                 </div>
             </section>
-            {/* --- About Section End --- */}
         </main>
     );
 }
