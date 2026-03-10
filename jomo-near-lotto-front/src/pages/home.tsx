@@ -268,7 +268,7 @@ export default function Home() {
 
             {/* --- About Section Start --- */}
             <section className="about-section mt-5 p-4 bg-light rounded shadow-sm" style={{ borderRadius: '15px' }}>
-                <h3 className="mb-4 text-center">{t.about}</h3>
+                <h3 className="mb-4 text-center" style={{ color: '#212529' }}>
                 <div className="row">
                     <div className="col-md-6 mb-3">
                         <div className="card h-100 border-0 shadow-none bg-white p-3" style={{ borderRadius: '12px' }}>
