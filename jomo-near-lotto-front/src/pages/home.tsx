@@ -155,16 +155,39 @@ export default function Home() {
     return (
         <main className="container mt-4 mb-5">
             <div className="d-flex justify-content-end gap-2 mb-2 pt-2">
+                {/* Кнопка EN */}
                 <button
-                    className={`btn btn-sm ${lang === 'en' ? 'btn-dark' : 'btn-outline-dark'}`}
+                    className="btn btn-sm"
                     onClick={() => setLang('en')}
-                    style={{ borderRadius: '8px' }}
-                >EN</button>
+                    style={{
+                        borderRadius: '8px',
+                        transition: 'all 0.3s ease',
+                        backgroundColor: lang === 'en' ? '#212529' : 'transparent',
+                        color: lang === 'en' ? '#fff' : '#6c757d',
+                        border: lang === 'en' ? '2px solid #212529' : '2px solid #ced4da',
+                        fontWeight: lang === 'en' ? 'bold' : 'normal',
+                        padding: '4px 12px'
+                    }}
+                >
+                    EN
+                </button>
+
+                {/* Кнопка UA */}
                 <button
-                    className={`btn btn-sm ${lang === 'ua' ? 'btn-dark' : 'btn-outline-dark'}`}
+                    className="btn btn-sm"
                     onClick={() => setLang('ua')}
-                    style={{ borderRadius: '8px' }}
-                >UA</button>
+                    style={{
+                        borderRadius: '8px',
+                        transition: 'all 0.3s ease',
+                        backgroundColor: lang === 'ua' ? '#212529' : 'transparent',
+                        color: lang === 'ua' ? '#fff' : '#6c757d',
+                        border: lang === 'ua' ? '2px solid #212529' : '2px solid #ced4da',
+                        fontWeight: lang === 'ua' ? 'bold' : 'normal',
+                        padding: '4px 12px'
+                    }}
+                >
+                    UA
+                </button>
             </div>
             <h1>{t.title}</h1>
             <p>{t.subtitle}</p>
@@ -248,7 +271,7 @@ export default function Home() {
                                 <small className="text-muted" style={{ fontSize: '0.75rem' }}>
                                     {lang === 'ua'
                                         ? "Відправте кратну суму (0.1, 0.5, 1.0 NEAR), щоб отримати квитки автоматично."
-                                        : "Send multiples of 0.1 NEAR to receive tickets automatically."}
+                                        : "Send multiples of (0.1, 0.5, 1.0 NEAR) NEAR to receive tickets automatically."}
                                 </small>
                             </div>
 
