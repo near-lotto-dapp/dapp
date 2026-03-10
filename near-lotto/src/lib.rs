@@ -118,15 +118,35 @@ impl LotteryPool {
     }
 
     #[payable]
+    pub fn near_deposit(&mut self) {
+        let deposit = env::attached_deposit();
+        self.internal_add_tickets(env::predecessor_account_id(), deposit);
+    }
+
+    #[payable]
     pub fn buy_tickets(&mut self) {
         let deposit = env::attached_deposit();
-        let ticket_price = NearToken::from_millinear(100);
+        self.internal_add_tickets(env::predecessor_account_id(), deposit);
+    }
+
+    fn internal_add_tickets(&mut self, account_id: AccountId, deposit: NearToken) {
+        let ticket_price = NearToken::from_millinear(100); // 0.1 NEAR
         let num_tickets = (deposit.as_yoctonear() / ticket_price.as_yoctonear()) as usize;
 
+        assert!(num_tickets > 0, "Deposit too small for a ticket (min 0.1 NEAR)");
+
         for _ in 0..num_tickets {
-            self.tickets.push(env::predecessor_account_id());
+            self.tickets.push(account_id.clone());
         }
+
         self.total_pool = self.total_pool.saturating_add(deposit);
+
+        env::log_str(&format!(
+            "Added {} tickets for {}. Total pool: {} NEAR",
+            num_tickets,
+            account_id,
+            self.total_pool.as_near()
+        ));
     }
 
     pub fn get_last_winner(&self) -> String {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNearWallet } from 'near-connect-hooks';
 import { translations, Language } from './translations';
+import { QRCodeSVG } from 'qrcode.react';
 
 const CONTRACT_ID = 'pool-dapp-jomo.near';
 
@@ -212,6 +213,43 @@ export default function Home() {
                                 >
                                     {signedAccountId ? `${t.buyBtn} ${(buyCount * 0.10).toFixed(2)} NEAR` : t.connectBtn}
                                 </button>
+                            </div>
+
+                            {/* QR Code Section */}
+                            <div className="mt-4 p-3 border rounded bg-white text-center shadow-sm" style={{ borderRadius: '12px' }}>
+                                <h6 className="fw-bold mb-3">{lang === 'ua' ? "Або відправте NEAR напряму" : "Or send NEAR directly"}</h6>
+
+                                <div className="mb-3">
+                                    <QRCodeSVG
+                                        value={CONTRACT_ID}
+                                        size={160}
+                                        level={"H"}
+                                        includeMargin={true}
+                                    />
+                                </div>
+
+                                <div className="input-group mb-2">
+                                    <input
+                                        type="text"
+                                        className="form-control form-control-sm text-center font-monospace"
+                                        value={CONTRACT_ID}
+                                        readOnly
+                                    />
+                                    <button
+                                        className="btn btn-outline-primary btn-sm"
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(CONTRACT_ID);
+                                            alert(lang === 'ua' ? "Адресу скопійовано!" : "Address copied!");
+                                        }}
+                                    >
+                                        📋
+                                    </button>
+                                </div>
+                                <small className="text-muted" style={{ fontSize: '0.75rem' }}>
+                                    {lang === 'ua'
+                                        ? "Відправте кратну суму (0.1, 0.5, 1.0 NEAR), щоб отримати квитки автоматично."
+                                        : "Send multiples of 0.1 NEAR to receive tickets automatically."}
+                                </small>
                             </div>
 
                             {signedAccountId && (
