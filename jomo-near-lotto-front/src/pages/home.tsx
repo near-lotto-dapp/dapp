@@ -243,61 +243,6 @@ export default function Home() {
                                 </button>
                             </div>
 
-                            {/* --- QR-коду --- */}
-                            <div className="mt-4 p-4 border rounded bg-white text-center shadow-sm" style={{ borderRadius: '12px' }}>
-                                <h5 className="fw-bold mb-3">{lang === 'ua' ? "Швидка покупка через QR" : "Quick Buy via QR"}</h5>
-
-                                <label className="form-label text-muted small mb-1">
-                                    {lang === 'ua' ? "Сума NEAR (наприклад, 0.5 = 5 квитків):" : "NEAR amount (e.g., 0.5 = 5 tickets):"}
-                                </label>
-                                <div className="input-group mb-3 mx-auto" style={{ maxWidth: '200px' }}>
-                                    <input
-                                        type="number"
-                                        className="form-control text-center font-monospace"
-                                        value={qrDepositAmount}
-                                        min="0.1"
-                                        step="0.1"
-                                        onChange={(e) => setQrDepositAmount(e.target.value)}
-                                    />
-                                    <span className="input-group-text bg-light">NEAR</span>
-                                </div>
-
-                                <div className="mb-3 d-flex justify-content-center">
-                                    {/* generated link for QRCode */}
-                                    <QRCodeSVG
-                                        value={qrLink}
-                                        size={180}
-                                        level={"M"}
-                                        includeMargin={true}
-                                        style={{ border: '1px solid #dee2e6', borderRadius: '8px' }}
-                                    />
-                                </div>
-
-                                <div className="input-group mb-2 mx-auto" style={{ maxWidth: '350px' }}>
-                                    <input
-                                        type="text"
-                                        className="form-control form-control-sm text-center font-monospace"
-                                        value={CONTRACT_ID}
-                                        readOnly
-                                    />
-                                    <button
-                                        className="btn btn-outline-primary btn-sm"
-                                        onClick={() => {
-                                            navigator.clipboard.writeText(CONTRACT_ID);
-                                            alert(lang === 'ua' ? "Адресу скопійовано!" : "Address copied!");
-                                        }}
-                                    >
-                                        📋 {lang === 'ua' ? "Копіювати" : "Copy"}
-                                    </button>
-                                </div>
-                                <small className="text-muted" style={{ fontSize: '0.75rem' }}>
-                                    {lang === 'ua'
-                                        ? "Відскануйте, щоб відкрити гаманець із готовим переказом."
-                                        : "Scan to open your wallet with a pre-filled transfer."}
-                                </small>
-                            </div>
-                            {/* --- Кінець секції QR-коду --- */}
-
                             {signedAccountId && (
                                 <p className="text-success small mt-2">
                                     {t.connected} <strong>{signedAccountId}</strong>
