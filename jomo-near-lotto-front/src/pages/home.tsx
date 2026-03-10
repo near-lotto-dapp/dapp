@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNearWallet } from 'near-connect-hooks';
+import { translations, Language } from './translations';
 
 const CONTRACT_ID = 'pool-dapp-jomo.near';
 
@@ -17,28 +18,31 @@ interface DrawRecord {
 }
 
 export default function Home() {
+    const [lang, setLang] = useState<Language>(
+        (localStorage.getItem('lang') as Language) || 'en'
+    );
+    const t = translations[lang];
+
     const [ticketsCount, setTicketsCount] = useState<number>(0);
     const [poolSizeNear, setPoolSizeNear] = useState<string>("0");
     const [buyCount, setBuyCount] = useState<number>(1);
     const [lastWinner, setLastWinner] = useState<{account_id: string, amount: string} | null>(null);
 
-    // history
     const [globalStats, setGlobalStats] = useState({ totalWon: "0.0000", totalFee: "0.0000" });
     const [drawHistory, setDrawHistory] = useState<DrawRecord[]>([]);
 
-    // timeout
     const [nextDrawTime, setNextDrawTime] = useState<number>(0);
     const [timeLeft, setTimeLeft] = useState<string>("00:00:00");
 
     const { signedAccountId, signIn, callFunction, viewFunction } = useNearWallet() as unknown as useNearHook;
 
-    // blockchain update front every 5 sec
     useEffect(() => {
+        localStorage.setItem('lang', lang);
+
         if (!viewFunction) return;
 
         const fetchPoolData = async () => {
             try {
-                // info about pool
                 const poolInfo = await viewFunction({
                     contractId: CONTRACT_ID,
                     method: 'get_pool_info'
@@ -48,7 +52,6 @@ export default function Home() {
                     setPoolSizeNear((Number(poolInfo[1]) / 1e24).toFixed(2));
                 }
 
-                // last winner
                 const winnerInfoStr = await viewFunction({
                     contractId: CONTRACT_ID,
                     method: 'get_last_winner'
@@ -61,7 +64,6 @@ export default function Home() {
                     });
                 }
 
-                // global statistics
                 const statsInfo = await viewFunction({
                     contractId: CONTRACT_ID,
                     method: 'get_global_stats'
@@ -73,7 +75,6 @@ export default function Home() {
                     });
                 }
 
-                // draw history
                 const historyInfoStr = await viewFunction({
                     contractId: CONTRACT_ID,
                     method: 'get_draw_history'
@@ -83,7 +84,6 @@ export default function Home() {
                     setDrawHistory(parsedHistory.reverse());
                 }
 
-                // time for the next draw
                 const nextDrawStr = await viewFunction({
                     contractId: CONTRACT_ID,
                     method: 'get_next_draw_time'
@@ -100,10 +100,9 @@ export default function Home() {
         fetchPoolData();
         const interval = setInterval(fetchPoolData, 5000);
         return () => clearInterval(interval);
-    }, [viewFunction]);
+    }, [viewFunction, lang]);
 
 
-    // every second timer
     useEffect(() => {
         if (!nextDrawTime) return;
 
@@ -112,7 +111,7 @@ export default function Home() {
             const diff = nextDrawTime - now;
 
             if (diff <= 0) {
-                setTimeLeft("Draw time! 🎲");
+                setTimeLeft(lang === 'ua' ? "Час розіграшу! 🎲" : "Draw time! 🎲");
             } else {
                 const h = Math.floor((diff / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
                 const m = Math.floor((diff / 1000 / 60) % 60).toString().padStart(2, '0');
@@ -122,7 +121,7 @@ export default function Home() {
         }, 1000);
 
         return () => clearInterval(timerInterval);
-    }, [nextDrawTime]);
+    }, [nextDrawTime, lang]);
 
 
     const handleBuyTickets = async () => {
@@ -130,7 +129,6 @@ export default function Home() {
             if (signIn) signIn();
             return;
         }
-        // 0.10 NEAR (23 zeros)
         const depositYocto = (BigInt(buyCount) * BigInt("100000000000000000000000")).toString();
         try {
             await callFunction({
@@ -146,7 +144,7 @@ export default function Home() {
 
     const formatDate = (timestampMs: number) => {
         const date = new Date(timestampMs);
-        return date.toLocaleString('uk-UA', {
+        return date.toLocaleString(lang === 'ua' ? 'uk-UA' : 'en-US', {
             timeZone: 'UTC',
             day: '2-digit', month: '2-digit', year: 'numeric',
             hour: '2-digit', minute: '2-digit', second: '2-digit'
@@ -155,42 +153,51 @@ export default function Home() {
 
     return (
         <main className="container mt-4 mb-5">
-            <h1>JOMO Pool 🧘‍♂️</h1>
-            <p>Stack crypto, ignore the noise. Steadily moving toward the goal!</p>
+            <div className="d-flex justify-content-end gap-2 mb-2 pt-2">
+                <button
+                    className={`btn btn-sm ${lang === 'en' ? 'btn-dark' : 'btn-outline-dark'}`}
+                    onClick={() => setLang('en')}
+                    style={{ borderRadius: '8px' }}
+                >EN</button>
+                <button
+                    className={`btn btn-sm ${lang === 'ua' ? 'btn-dark' : 'btn-outline-dark'}`}
+                    onClick={() => setLang('ua')}
+                    style={{ borderRadius: '8px' }}
+                >UA</button>
+            </div>
+            <h1>{t.title}</h1>
+            <p>{t.subtitle}</p>
 
-            {/* block for last winner */}
             {lastWinner && (
                 <div className="alert alert-success border-0 shadow-sm mb-4 d-flex align-items-center" style={{ borderRadius: '15px' }}>
                     <div className="fs-1 me-3">🏆</div>
                     <div>
-                        <h5 className="mb-1 fw-bold">The last jackpot has been drawn!</h5>
+                        <h5 className="mb-1 fw-bold">{t.lastJackpot}</h5>
                         <p className="mb-0">
-                            The player <strong>{lastWinner.account_id}</strong> won <strong>{lastWinner.amount} NEAR</strong>
+                            {t.winnerPrefix} <strong>{lastWinner.account_id}</strong> {t.winnerSuffix} <strong>{lastWinner.amount} NEAR</strong>
                         </p>
                     </div>
                 </div>
             )}
 
             <div className="row">
-                {/* main card of pool */}
                 <div className="col-md-7 mb-4">
-                    {/* live timer */}
                     {nextDrawTime > 0 && (
                         <div className="alert alert-warning text-center shadow-sm mb-4" style={{ borderRadius: '15px' }}>
-                            <h5 className="mb-1 text-dark">Time until the next draw: </h5>
+                            <h5 className="mb-1 text-dark">{t.nextDraw} </h5>
                             <h2 className="mb-0 fw-bold font-monospace text-danger">{timeLeft}</h2>
                         </div>
                     )}
 
                     <div className="card p-4 shadow-sm h-100" style={{ borderRadius: '15px' }}>
-                        <h2>Current prize pool: <strong>{poolSizeNear} NEAR</strong></h2>
-                        <h3>Tickets purchased: {ticketsCount}</h3>
-                        <p className="text-muted">Price for 1 ticket: 0.10 NEAR</p>
+                        <h2>{t.prizePool} <strong>{poolSizeNear} NEAR</strong></h2>
+                        <h3>{t.tickets} {ticketsCount}</h3>
+                        <p className="text-muted">{t.price} 0.10 NEAR</p>
 
                         <hr className="my-4" />
 
                         <div className="buy-section">
-                            <label className="form-label fw-bold">How many tickets do you want to buy?</label>
+                            <label className="form-label fw-bold">{lang === 'ua' ? "Скільки квитків ви хочете купити?" : "How many tickets do you want to buy?"}</label>
                             <div className="input-group mb-2" style={{ maxWidth: '400px' }}>
                                 <input
                                     type="number"
@@ -203,46 +210,44 @@ export default function Home() {
                                     className={`btn ${signedAccountId ? 'btn-success' : 'btn-primary'}`}
                                     onClick={handleBuyTickets}
                                 >
-                                    {signedAccountId ? `Buy for ${(buyCount * 0.10).toFixed(2)} NEAR` : "Connect wallet"}
+                                    {signedAccountId ? `${t.buyBtn} ${(buyCount * 0.10).toFixed(2)} NEAR` : t.connectBtn}
                                 </button>
                             </div>
 
                             {signedAccountId && (
                                 <p className="text-success small mt-2">
-                                    Connected wallet: <strong>{signedAccountId}</strong>
+                                    {t.connected} <strong>{signedAccountId}</strong>
                                 </p>
                             )}
                         </div>
                     </div>
                 </div>
 
-                {/* card for global statistics */}
                 <div className="col-md-5 mb-4">
                     <div className="card p-4 shadow-sm h-100 bg-light" style={{ borderRadius: '15px' }}>
-                        <h4 className="mb-4">🌍 Global statistics</h4>
+                        <h4 className="mb-4">{t.stats}</h4>
                         <div className="mb-3">
-                            <span className="text-muted d-block">Total prize pool distributed to players: </span>
+                            <span className="text-muted d-block">{t.totalWon} </span>
                             <span className="fs-3 fw-bold text-success">{globalStats.totalWon} NEAR</span>
                         </div>
                         <div>
-                            <span className="text-muted d-block">Total fee: </span>
+                            <span className="text-muted d-block">{t.totalFee} </span>
                             <span className="fs-4 fw-bold text-primary">{globalStats.totalFee} NEAR</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* table of history */}
             {drawHistory.length > 0 && (
-                <div className="card p-4 shadow-sm" style={{ borderRadius: '15px' }}>
-                    <h4 className="mb-4">📜 Draw history</h4>
+                <div className="card p-4 shadow-sm mb-5" style={{ borderRadius: '15px' }}>
+                    <h4 className="mb-4">{t.history}</h4>
                     <div className="table-responsive">
                         <table className="table table-hover align-middle">
                             <thead className="table-light">
                             <tr>
-                                <th>Date and time (UTC)</th>
-                                <th>Winner's wallet</th>
-                                <th className="text-end">Winning amount</th>
+                                <th>{t.historyDate}</th>
+                                <th>{t.historyWallet}</th>
+                                <th className="text-end">{t.historyAmount}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -260,6 +265,52 @@ export default function Home() {
                     </div>
                 </div>
             )}
+
+            {/* --- About Section Start --- */}
+            <section className="about-section mt-5 p-4 bg-light rounded shadow-sm" style={{ borderRadius: '15px' }}>
+                <h3 className="mb-4 text-center">{t.about}</h3>
+                <div className="row">
+                    <div className="col-md-6 mb-3">
+                        <div className="card h-100 border-0 shadow-none bg-white p-3" style={{ borderRadius: '12px' }}>
+                            <h5>{t.transparency}</h5>
+                            <p className="text-muted small">
+                                {t.transparencyDesc}
+                            </p>
+                            <a
+                                href="https://nearblocks.io/address/pool-dapp-jomo.near"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="fw-bold text-decoration-none"
+                                style={{ color: '#0072ce' }}
+                            >
+                                {t.verifyExplorer}
+                            </a>
+                        </div>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                        <div className="card h-100 border-0 shadow-none bg-white p-3" style={{ borderRadius: '12px' }}>
+                            <h5>{t.automation}</h5>
+                            <p className="text-muted small">
+                                {t.automationDesc}
+                            </p>
+                            <a
+                                href="https://github.com/near-lotto-dapp/dapp/actions"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="fw-bold text-decoration-none"
+                                style={{ color: '#0072ce' }}
+                            >
+                                {t.viewRunner}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div className="text-center mt-3 text-muted" style={{ fontSize: '0.85rem' }}>
+                    <p className="mb-0">{t.status}</p>
+                    <p>{lang === 'ua' ? "Адреса контракту" : "Contract Address"}: <code>pool-dapp-jomo.near</code></p>
+                </div>
+            </section>
+            {/* --- About Section End --- */}
         </main>
     );
 }
