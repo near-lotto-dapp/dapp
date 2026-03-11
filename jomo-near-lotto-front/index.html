@@ -1,13 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> Near App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JOMO Pool</title>
+
+  <script>
+    (function() {
+      try {
+        var test = window.localStorage;
+      } catch (e) {
+        console.warn("LocalStorage is blocked. Polyfilling for Near Mobile...");
+        var storage = {};
+        Object.defineProperty(window, 'localStorage', {
+          value: {
+            getItem: function(k) { return storage[k] || null; },
+            setItem: function(k, v) { storage[k] = v; },
+            removeItem: function(k) { delete storage[k]; },
+            clear: function() { storage = {}; },
+            length: 0
+          },
+          configurable: true
+        });
+      }
+    })();
+  </script>
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="/src/main.tsx"></script>
+</body>
 </html>
