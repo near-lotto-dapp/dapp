@@ -71,6 +71,20 @@ impl LotteryPool {
         self.tickets[start..actual_end].to_vec()
     }
 
+    pub fn get_active_pool_codes(&self, from_index: Option<u64>, limit: Option<u64>) -> Vec<AccountId> {
+        let start = from_index.unwrap_or(0) as usize;
+        let limit = limit.unwrap_or(100) as usize;
+
+        let total = self.tickets.len();
+        if start >= total {
+            return Vec::new();
+        }
+
+        let end = std::cmp::min(start + limit, total);
+        // Повертаємо частину вектора з адресами
+        self.tickets[start..end].to_vec()
+    }
+
     pub fn draw_winner(&mut self) {
         self.assert_owner();
         let tickets_len = self.tickets.len();
