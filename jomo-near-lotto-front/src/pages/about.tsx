@@ -50,10 +50,6 @@ const About: React.FC<AboutProps> = ({ lang, contractId }) => {
                     </div>
                 </div>
             </div>
-            <div className="text-center mt-3 text-muted" style={{ fontSize: '0.85rem' }}>
-                <p className="mb-0">{t.status}</p>
-                <p>{lang === 'ua' ? "Адреса контракту" : "Contract Address"}: <code>{contractId}</code></p>
-            </div>
         </section>
     );
 };
