@@ -1,6 +1,6 @@
 export const translations = {
     en: {
-        title: "JOMO Pool Codes 🧘‍♂️",
+        title: "JOMO Pool Codes",
         subtitle: "Stack crypto, ignore the noise. Steadily moving toward the goal!",
         prizePool: "Current prize pool:",
         tickets: "Pool codes purchased:",
@@ -9,7 +9,7 @@ export const translations = {
         connectBtn: "Connect wallet",
         stats: "🌍 Global statistics",
         history: "📜 Draw history",
-        about: "About JOMO Pool Codes 🧘‍♂️",
+        about: "About JOMO Pool Codes",
         transparency: "🛡️ Transparency",
         automation: "🤖 Autonomous Draws",
         nextDraw: "Time until the next draw:",
@@ -39,7 +39,7 @@ export const translations = {
         feeDescription: "This small fee helps us cover server costs, ensure smart contract security, and develop new features for the JOMO Pool community. No Hidden Fees!"
     },
     ua: {
-        title: "JOMO Pool Codes 🧘‍♂️",
+        title: "JOMO Pool Codes️",
         subtitle: "Накопичуй крипто, ігноруй шум. Впевнено йди до мети!",
         prizePool: "Поточний призовий фонд:",
         tickets: "Куплено pool codes:",
@@ -48,7 +48,7 @@ export const translations = {
         connectBtn: "Підключити гаманець",
         stats: "🌍 Глобальна статистика",
         history: "📜 Історія розіграшів",
-        about: "Про JOMO Pool Codes 🧘‍♂️",
+        about: "Про JOMO Pool Codes",
         transparency: "🛡️ Прозорість",
         automation: "🤖 Автоматизація",
         nextDraw: "До наступного розіграшу:",
