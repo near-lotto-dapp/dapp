@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.0",
     "bootstrap": "^5",
     "bootstrap-icons": "^1.11.3",
     "near-connect-hooks": "^1.0.2",
