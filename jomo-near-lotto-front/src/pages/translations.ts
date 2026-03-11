@@ -36,6 +36,7 @@ export const translations = {
         step3Desc: "Once a day, the algorithm randomly selects one winning share. The owner of that share takes 97% of the total accumulated pool.",
         exampleTitle: "The Math of Success (Example): 📝",
         exampleText: "Imagine there are 1000 codes in total (100 NEAR). If you hold 100 codes (10 NEAR), your chance of winning is exactly 10%. If you win, you'll get 97 NEAR, which is 9.7 times your initial contribution!",
+        feeDescription: "This small fee helps us cover server costs, ensure smart contract security, and develop new features for the JOMO Pool community. No Hidden Fees!"
     },
     ua: {
         title: "JOMO Pool Codes 🧘‍♂️",
@@ -74,6 +75,7 @@ export const translations = {
         step3Desc: "Раз на добу алгоритм випадковим чином обирає одну частку-переможця. Власник цієї частки забирає 97% усього накопиченого пулу.",
         exampleTitle: "Математика успіху (Приклад): 📝",
         exampleText: "Уявімо, що в пулі всього 1000 pool codes (100 NEAR). Якщо ви володієте 100 pool codes (10 NEAR), ваш шанс на перемогу становить рівно 10%. При виграші ви отримаєте 97 NEAR, що в 9.7 разів більше вашого внеску!",
+        feeDescription: "Ця невелика комісія дозволяє нам підтримувати роботу серверів, забезпечувати безпеку смарт-контракту та розвивати нові функції для JOMO Pool. Ніяких прихованих комісій!"
     }
 };
 

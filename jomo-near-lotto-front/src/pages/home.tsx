@@ -361,6 +361,15 @@ export default function Home() {
                             <span className="text-muted d-block">{t.totalFee} </span>
                             <span className="fs-4 fw-bold text-primary">{globalStats.totalFee} NEAR</span>
                         </div>
+
+                        <hr className="my-3" style={{ opacity: 0.1 }} />
+
+                        <div className="p-2 rounded" style={{ backgroundColor: 'rgba(0,0,0,0.03)' }}>
+                            <p className="m-0 text-muted" style={{ fontSize: '0.75rem', lineHeight: '1.4' }}>
+                                <i className="bi bi-info-circle me-1"></i>
+                                {t.feeDescription}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
