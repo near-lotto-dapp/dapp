@@ -1,6 +1,6 @@
 export const translations = {
     en: {
-        title: "JOMO Pool Shares 🧘‍♂️",
+        title: "JOMO Pool Codes 🧘‍♂️",
         subtitle: "Stack crypto, ignore the noise. Steadily moving toward the goal!",
         prizePool: "Current prize pool:",
         tickets: "Pool codes purchased:",
@@ -9,7 +9,7 @@ export const translations = {
         connectBtn: "Connect wallet",
         stats: "🌍 Global statistics",
         history: "📜 Draw history",
-        about: "About JOMO Pool Shares 🧘‍♂️",
+        about: "About JOMO Pool Codes 🧘‍♂️",
         transparency: "🛡️ Transparency",
         automation: "🤖 Autonomous Draws",
         nextDraw: "Time until the next draw:",
@@ -38,7 +38,7 @@ export const translations = {
         exampleText: "Imagine there are 1000 codes in total (100 NEAR). If you hold 100 codes (10 NEAR), your chance of winning is exactly 10%. If you win, you'll get 97 NEAR, which is 9.7 times your initial contribution!",
     },
     ua: {
-        title: "JOMO Pool Shares 🧘‍♂️",
+        title: "JOMO Pool Codes 🧘‍♂️",
         subtitle: "Накопичуй крипто, ігноруй шум. Впевнено йди до мети!",
         prizePool: "Поточний призовий фонд:",
         tickets: "Куплено pool codes:",
@@ -47,7 +47,7 @@ export const translations = {
         connectBtn: "Підключити гаманець",
         stats: "🌍 Глобальна статистика",
         history: "📜 Історія розіграшів",
-        about: "Про JOMO Pool Shares 🧘‍♂️",
+        about: "Про JOMO Pool Codes 🧘‍♂️",
         transparency: "🛡️ Прозорість",
         automation: "🤖 Автоматизація",
         nextDraw: "До наступного розіграшу:",
