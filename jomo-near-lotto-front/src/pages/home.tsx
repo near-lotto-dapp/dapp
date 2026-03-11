@@ -194,25 +194,48 @@ export default function Home() {
         <main className="container mt-4 mb-5">
             {/* ... блок кнопок перемикання мов ... */}
             <div className="d-flex justify-content-end gap-2 mb-2 pt-2">
-                <button className="btn btn-sm" onClick={() => setLang('en')} style={{
-                    borderRadius: '8px',
-                    transition: 'all 0.3s ease',
-                    backgroundColor: lang === 'en' ? '#212529' : 'transparent',
-                    color: lang === 'en' ? '#fff' : '#6c757d',
-                    border: lang === 'en' ? '2px solid #212529' : '2px solid #ced4da',
-                    fontWeight: lang === 'en' ? 'bold' : 'normal',
-                    padding: '4px 12px'
-                }}>EN
+                <button
+                    className="btn btn-sm"
+                    onClick={() => setLang('en')}
+                    style={{
+                        width: '38px',
+                        height: '38px',
+                        borderRadius: '50%', // Робимо ідеальне коло
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.3s ease',
+                        backgroundColor: lang === 'en' ? 'rgba(84, 214, 255, 0.2)' : 'transparent',
+                        color: lang === 'en' ? '#54d6ff' : '#838687',
+                        // Якщо мова вибрана — малюємо яскраву рамку, якщо ні — тонку напівпрозору
+                        border: lang === 'en' ? '2px solid #54d6ff' : '1px solid rgba(131, 134, 135, 0.3)',
+                        fontWeight: 'bold',
+                        padding: '0',
+                        fontSize: '13px'
+                    }}
+                >
+                    EN
                 </button>
-                <button className="btn btn-sm" onClick={() => setLang('ua')} style={{
-                    borderRadius: '8px',
-                    transition: 'all 0.3s ease',
-                    backgroundColor: lang === 'ua' ? '#212529' : 'transparent',
-                    color: lang === 'ua' ? '#fff' : '#6c757d',
-                    border: lang === 'ua' ? '2px solid #212529' : '2px solid #ced4da',
-                    fontWeight: lang === 'ua' ? 'bold' : 'normal',
-                    padding: '4px 12px'
-                }}>UA
+                <button
+                    className="btn btn-sm"
+                    onClick={() => setLang('ua')}
+                    style={{
+                        width: '38px',
+                        height: '38px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.3s ease',
+                        backgroundColor: lang === 'ua' ? 'rgba(84, 214, 255, 0.2)' : 'transparent',
+                        color: lang === 'ua' ? '#54d6ff' : '#838687',
+                        border: lang === 'ua' ? '2px solid #54d6ff' : '1px solid rgba(131, 134, 135, 0.3)',
+                        fontWeight: 'bold',
+                        padding: '0',
+                        fontSize: '13px'
+                    }}
+                >
+                    UA
                 </button>
             </div>
 
@@ -290,7 +313,7 @@ export default function Home() {
                                                 </div>
 
                                                 <div className="d-flex justify-content-between mb-4 small text-muted">
-                                                    <span>{userCodesCount} {lang === 'ua' ? "активних кодів" : "active codes"}</span>
+                                                    <span>{userCodesCount} {lang === 'ua' ? "активних pool codes" : "active pool codes"}</span>
                                                     <span>{lang === 'ua' ? "Всього:" : "Total:"} {totalCodes}</span>
                                                 </div>
 
@@ -315,7 +338,7 @@ export default function Home() {
                                                             )
                                                         ))}
                                                         {userCodesCount === 0 &&
-                                                            <p className="text-muted small italic">{lang === 'ua' ? "У вас поки немає активних кодів" : "No active codes yet"}</p>}
+                                                            <p className="text-muted small italic">{lang === 'ua' ? "У вас поки немає активних pool codes" : "No active pool codes yet"}</p>}
                                                     </div>
                                                 </div>
                                             </>

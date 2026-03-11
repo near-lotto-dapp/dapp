@@ -10,12 +10,12 @@
   --background-end-rgb: 255, 255, 255;
 
   --primary-glow: conic-gradient(
-    from 180deg at 50% 50%,
-    #16abff33 0deg,
-    #0885ff33 55deg,
-    #54d6ff33 120deg,
-    #0071ff33 160deg,
-    transparent 360deg
+          from 180deg at 50% 50%,
+          #16abff33 0deg,
+          #0885ff33 55deg,
+          #54d6ff33 120deg,
+          #0071ff33 160deg,
+          transparent 360deg
   );
   --secondary-glow: radial-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
 
@@ -32,20 +32,23 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+
+    /* 🔥 ТУТ ЗМІНИ: Новий глибокий синій фон (Варіант 2) замість нудного чорного */
+    --background-start-rgb: 11, 26, 48; /* #0b1a30 */
+    --background-end-rgb: 5, 13, 26;    /* #050d1a */
 
     --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
     --secondary-glow: linear-gradient(to bottom right, rgba(1, 65, 255, 0), rgba(1, 65, 255, 0), rgba(1, 65, 255, 0.3));
 
-    --tile-start-rgb: 2, 13, 46;
-    --tile-end-rgb: 2, 5, 19;
+    /* Трохи підкоригував кольори карток, щоб вони краще виглядали на синьому */
+    --tile-start-rgb: 16, 37, 66;
+    --tile-end-rgb: 10, 24, 45;
     --tile-border: conic-gradient(#ffffff80, #ffffff40, #ffffff30, #ffffff20, #ffffff10, #ffffff10, #ffffff80);
 
-    --callout-rgb: 20, 20, 20;
-    --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 100, 100, 100;
-    --card-border-rgb: 200, 200, 200;
+    --callout-rgb: 16, 37, 66;
+    --callout-border-rgb: 50, 75, 110;
+    --card-rgb: 16, 37, 66;
+    --card-border-rgb: 50, 75, 110;
   }
 }
 
@@ -63,17 +66,22 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+
+  /* 🔥 ТУТ ЗМІНИ: Застосовуємо наш градієнт 135deg та фіксуємо його */
+  background: linear-gradient(135deg, rgb(var(--background-start-rgb)) 0%, rgb(var(--background-end-rgb)) 100%);
+  background-attachment: fixed;
+  min-height: 100vh; /* Гарантуємо, що фон закриває всю висоту екрану */
+
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Noto Sans,
-    Ubuntu,
-    Droid Sans,
-    Helvetica Neue,
-    sans-serif;
+          -apple-system,
+          BlinkMacSystemFont,
+          Segoe UI,
+          Roboto,
+          Noto Sans,
+          Ubuntu,
+          Droid Sans,
+          Helvetica Neue,
+          sans-serif;
 }
 
 a {
