@@ -1,6 +1,7 @@
 use near_sdk::borsh::{BorshDeserialize, BorshSerialize};
 use near_sdk::{env, near_bindgen, AccountId, Promise, PanicOnDefault, NearToken};
 use near_sdk::serde::{Serialize, Deserialize};
+use near_sdk::json_types::U128;
 
 #[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, Clone)]
 #[borsh(crate = "near_sdk::borsh")]
@@ -55,6 +56,19 @@ impl LotteryPool {
             next_draw_time_ms: env::block_timestamp_ms() + draw_period_ms,
             draw_period_ms,
         }
+    }
+
+    pub fn get_active_tickets(&self, from_index: Option<u64>, limit: Option<u64>) -> Vec<AccountId> {
+        let start = from_index.unwrap_or(0) as usize;
+        let end = start + limit.unwrap_or(100) as usize;
+
+        let tickets_len = self.tickets.len();
+        if start >= tickets_len {
+            return Vec::new();
+        }
+
+        let actual_end = std::cmp::min(end, tickets_len);
+        self.tickets[start..actual_end].to_vec()
     }
 
     pub fn draw_winner(&mut self) {

@@ -26,7 +26,16 @@ export const translations = {
         viewRunner: "View Runner Logs on GitHub →",
         transparencyDesc: "JOMO Pool is a non-custodial decentralized application. Every ticket purchase and jackpot draw is recorded permanently on the NEAR blockchain.",
         automationDesc: "Our daily draws are fully automated via GitHub Actions. No human intervention is needed to select a winner, ensuring 100% fairness.",
-        status: "System Status: Mainnet Operational"
+        status: "System Status: Mainnet Operational",
+        howItWorksTitle: "How Pool-Shares work? 💡",
+        step1: "1. Acquire Shares",
+        step1Desc: "You purchase Pool-Shares. 1 share = 0.1 NEAR. The more shares you hold, the higher your chance of winning the entire pool.",
+        step2: "2. Pool Capitalization",
+        step2Desc: "All NEAR from purchased shares accumulate in a common pool. The smart contract ensures the security and transparency of every transaction.",
+        step3: "3. Pool Distribution",
+        step3Desc: "Once a day, the algorithm randomly selects one winning share. The owner of that share takes 97% of the total accumulated pool.",
+        exampleTitle: "The Math of Success (Example): 📝",
+        exampleText: "Imagine there are 1000 shares in total (100 NEAR). If you hold 100 shares (10 NEAR), your chance of winning is exactly 10%. If you win, you'll get 97 NEAR, which is 9.7 times your initial contribution!",
     },
     ua: {
         title: "JOMO Пул 🧘‍♂️",
@@ -55,7 +64,16 @@ export const translations = {
         viewRunner: "Переглянути логи ранера на GitHub →",
         transparencyDesc: "JOMO Pool — це децентралізований додаток. Кожна купівля квитка та розіграш джекпоту назавжди записуються в блокчейн NEAR.",
         automationDesc: "Наші щоденні розіграші повністю автоматизовані через GitHub Actions. Для вибору переможця не потрібне втручання людини.",
-        status: "Статус системи: Mainnet працює"
+        status: "Статус системи: Mainnet працює",
+        howItWorksTitle: "Як працюють Pool-Shares? 💡",
+        step1: "1. Придбання часток",
+        step1Desc: "Ви купуєте Pool-Shares (частки пулу). 1 частка = 0.1 NEAR. Чим більше часток у вас є, тим вищий ваш шанс на виграш усього пулу.",
+        step2: "2. Капіталізація пулу",
+        step2Desc: "Всі NEAR за придбані частки накопичуються в загальному пулі. Смарт-контракт гарантує безпеку та прозорість кожної транзакції.",
+        step3: "3. Розподіл пулу",
+        step3Desc: "Раз на добу алгоритм випадковим чином обирає одну частку-переможця. Власник цієї частки забирає 97% усього накопиченого пулу.",
+        exampleTitle: "Математика успіху (Приклад): 📝",
+        exampleText: "Уявімо, що в пулі всього 1000 часток (100 NEAR). Якщо ви володієте 100 частками (10 NEAR), ваш шанс на перемогу становить рівно 10%. При виграші ви отримаєте 97 NEAR, що в 9.7 разів більше вашого внеску!",
     }
 };
 

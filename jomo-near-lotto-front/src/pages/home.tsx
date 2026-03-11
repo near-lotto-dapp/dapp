@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNearWallet } from 'near-connect-hooks';
 import { translations, Language } from './translations';
-import { QRCodeSVG } from 'qrcode.react';
+import HowItWorks from "./how_it_works";
+import About from './about';
 
 const CONTRACT_ID = 'pool-dapp-jomo.near';
 
@@ -295,51 +296,9 @@ export default function Home() {
                 </div>
             )}
 
-            <section className="about-section mt-5 p-4 bg-light rounded shadow-sm" style={{ borderRadius: '15px' }}>
-                <h3 className="mb-4 text-center" style={{ color: '#212529' }}>
-                    {t.about}
-                </h3>
-                <div className="row">
-                    <div className="col-md-6 mb-3">
-                        <div className="card h-100 border-0 shadow-none bg-white p-3" style={{ borderRadius: '12px' }}>
-                            <h5>{t.transparency}</h5>
-                            <p className="text-muted small">
-                                {t.transparencyDesc}
-                            </p>
-                            <a
-                                href="https://nearblocks.io/address/pool-dapp-jomo.near"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="fw-bold text-decoration-none"
-                                style={{ color: '#0072ce' }}
-                            >
-                                {t.verifyExplorer}
-                            </a>
-                        </div>
-                    </div>
-                    <div className="col-md-6 mb-3">
-                        <div className="card h-100 border-0 shadow-none bg-white p-3" style={{ borderRadius: '12px' }}>
-                            <h5>{t.automation}</h5>
-                            <p className="text-muted small">
-                                {t.automationDesc}
-                            </p>
-                            <a
-                                href="https://github.com/near-lotto-dapp/dapp/actions"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="fw-bold text-decoration-none"
-                                style={{ color: '#0072ce' }}
-                            >
-                                {t.viewRunner}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div className="text-center mt-3 text-muted" style={{ fontSize: '0.85rem' }}>
-                    <p className="mb-0">{t.status}</p>
-                    <p>{lang === 'ua' ? "Адреса контракту" : "Contract Address"}: <code>pool-dapp-jomo.near</code></p>
-                </div>
-            </section>
+            <HowItWorks lang={lang} />
+            <About lang={lang} contractId={CONTRACT_ID} />
+
         </main>
     );
 }
