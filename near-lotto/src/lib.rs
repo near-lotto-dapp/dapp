@@ -102,7 +102,7 @@ impl LotteryPool {
 
         env::log_str("--- Lottery Draw Result ---");
         env::log_str(&format!("Total pool: {} yoctoNEAR", total_yocto));
-        env::log_str(&format!("Treasure Fee (1%): {} yoctoNEAR", fee_yocto));
+        env::log_str(&format!("Treasure Fee (3%): {} yoctoNEAR", fee_yocto));
         env::log_str(&format!("Winner prize: {} yoctoNEAR", winner_prize_yocto));
 
         self.last_winner = Some(WinnerInfo {
