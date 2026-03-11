@@ -6,6 +6,7 @@
     "@near-wallet-selector/meteor-wallet": "^10.1.4",
     "@near-wallet-selector/modal-ui": "^10.1.4",
     "@near-wallet-selector/my-near-wallet": "^10.1.4",
+    "@vercel/analytics": "^2.0.0",
     "near-api-js": "^1.1.0"
   }
 }

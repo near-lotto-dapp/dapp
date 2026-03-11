@@ -4,6 +4,7 @@ import { Navigation } from "@/components/navigation";
 import Home from "@/pages/home";
 import HelloNear from "@/pages/hello_near";
 import { NearProvider } from 'near-connect-hooks';
+import { Analytics } from "@vercel/analytics/react"
 
 
 function App () {
@@ -16,6 +17,7 @@ function App () {
           <Route path="/hello-near" element={<HelloNear />} />
         </Routes>
       </BrowserRouter>
+      <Analytics />
     </NearProvider>
   );
 };
