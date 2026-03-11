@@ -227,7 +227,7 @@ export default function Home() {
                         <hr className="my-4" />
 
                         <div className="buy-section">
-                            <label className="form-label fw-bold">{lang === 'ua' ? "Скільки квитків ви хочете купити?" : "How many tickets do you want to buy?"}</label>
+                            <label className="form-label fw-bold">{lang === 'ua' ? "Скільки pool code ви хочете купити?" : "How many pool codes do you want to buy?"}</label>
                             <div className="input-group mb-2" style={{ maxWidth: '400px' }}>
                                 <input
                                     type="number"
