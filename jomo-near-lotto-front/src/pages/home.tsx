@@ -172,7 +172,7 @@ export default function Home() {
 
     const formatAddress = (address: string) => {
         if (address.length > 25) {
-            return `${address.slice(0, 10)}...${address.slice(-10)}`;
+            return `${address.slice(0, 6)}...${address.slice(-4)}`;
         }
         return address;
     };
