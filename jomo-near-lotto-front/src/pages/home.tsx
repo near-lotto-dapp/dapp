@@ -124,7 +124,7 @@ export default function Home() {
         return () => clearInterval(interval);
     }, [viewFunction, lang, fetchPoolCodes]);
 
-    // Таймер зворотного відліку
+    // time
     useEffect(() => {
         if (!nextDrawTime) return;
         const timerInterval = setInterval(() => {
@@ -193,7 +193,6 @@ export default function Home() {
 
     return (
         <main className="container mt-4 mb-5">
-            {/* ... блок кнопок перемикання мов ... */}
             <div className="d-flex justify-content-end gap-2 mb-2 pt-2">
                 <button
                     className="btn btn-sm"
@@ -208,7 +207,6 @@ export default function Home() {
                         transition: 'all 0.3s ease',
                         backgroundColor: lang === 'en' ? 'rgba(84, 214, 255, 0.2)' : 'transparent',
                         color: lang === 'en' ? '#54d6ff' : '#838687',
-                        // Якщо мова вибрана — малюємо яскраву рамку, якщо ні — тонку напівпрозору
                         border: lang === 'en' ? '2px solid #54d6ff' : '1px solid rgba(131, 134, 135, 0.3)',
                         fontWeight: 'bold',
                         padding: '0',
@@ -243,7 +241,7 @@ export default function Home() {
             <h1>{t.title}</h1>
             <p>{t.subtitle}</p>
 
-            {/* ... блок переможця ... */}
+            {/* ... winner block ... */}
             {lastWinner && (
                 <div className="alert alert-success border-0 shadow-sm mb-4 d-flex align-items-center"
                      style={{borderRadius: '15px'}}>
@@ -383,7 +381,7 @@ export default function Home() {
                 </h4>
 
                 <div className="row align-items-center">
-                    {/* Візуалізація списку топ-власників */}
+                    {/* top users */}
                     <div className="col-md-6">
                         <div className="holders-list"
                              style={{maxHeight: '300px', overflowY: 'auto', paddingRight: '10px'}}>
@@ -417,7 +415,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* Секція статистики пулу */}
+                    {/* pool statistics */}
                     <div className="col-md-6 text-center">
                         <div className="p-4 rounded-4 bg-light border">
                             <div className="display-6 fw-bold text-primary mb-1">{topHolders.length}</div>
@@ -442,7 +440,7 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* ... історія ... */}
+            {/* ... history ... */}
             {drawHistory.length > 0 && (
                 <div className="card p-4 shadow-sm mb-5" style={{borderRadius: '15px'}}>
                     <h4 className="mb-4">{t.history}</h4>
