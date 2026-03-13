@@ -19,7 +19,6 @@ export const Footer = ({ t }: { t: any }) => {
                             NEAR Explorer
                         </a>
                         <span className="mx-2" style={{ opacity: 0.3 }}>|</span>
-                        {/* Змінюємо alert на зміну стану */}
                         <a
                             href="#"
                             onClick={(e) => {
@@ -81,10 +80,15 @@ export const Footer = ({ t }: { t: any }) => {
                                 <button
                                     type="button"
                                     className="btn btn-sm w-100"
-                                    style={{ backgroundColor: 'rgba(84, 214, 255, 0.1)', color: '#54d6ff', border: '1px solid #54d6ff' }}
+                                    style={{
+                                        backgroundColor: 'rgba(84, 214, 255, 0.1)',
+                                        color: '#54d6ff',
+                                        border: '1px solid #54d6ff',
+                                        fontWeight: 'bold'
+                                    }}
                                     onClick={() => setShowTerms(false)}
                                 >
-                                    I Understand
+                                    {t.confirmBtn}
                                 </button>
                             </div>
                         </div>

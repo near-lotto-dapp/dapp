@@ -48,7 +48,8 @@ export const translations = {
             "\n" +
             "5. No Warranties: The protocol is provided \"as is\" without any warranties. While the code is verified on-chain, you use it at your own risk.\n" +
             "\n" +
-            "6. Taxation: You are solely responsible for reporting and paying any taxes applicable to your winnings according to your local laws."
+            "6. Taxation: You are solely responsible for reporting and paying any taxes applicable to your winnings according to your local laws.",
+        confirmBtn: "I Understand",
     },
     ua: {
         title: "JOMO Pool Codes️",
@@ -99,7 +100,8 @@ export const translations = {
             "\n" +
             "5. Відсутність гарантій: Протокол надається за принципом \"як є\" (as is). Ми не гарантуємо відсутності помилок у коді, хоча він пройшов базову перевірку.\n" +
             "\n" +
-            "6. Відповідальність: Ви несете повну відповідальність за сплату податків у вашій країні з будь-якого отриманого виграшу."
+            "6. Відповідальність: Ви несете повну відповідальність за сплату податків у вашій країні з будь-якого отриманого виграшу.",
+        confirmBtn: "Я зрозумів",
     }
 };
 
