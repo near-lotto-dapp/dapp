@@ -50,6 +50,7 @@ export const translations = {
             "\n" +
             "6. Taxation: You are solely responsible for reporting and paying any taxes applicable to your winnings according to your local laws.",
         confirmBtn: "I Understand",
+        termsTitle: "Terms & Conditions",
     },
     ua: {
         title: "JOMO Pool Codes️",
@@ -102,6 +103,7 @@ export const translations = {
             "\n" +
             "6. Відповідальність: Ви несете повну відповідальність за сплату податків у вашій країні з будь-якого отриманого виграшу.",
         confirmBtn: "Я зрозумів",
+        termsTitle: "Правила та умови",
     }
 };
 

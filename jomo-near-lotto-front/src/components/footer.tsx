@@ -63,7 +63,9 @@ export const Footer = ({ t }: { t: any }) => {
                             }}
                         >
                             <div className="modal-header border-bottom" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-                                <h5 className="modal-title fw-bold">Terms & Conditions</h5>
+                                <h5 className="modal-title fw-bold">
+                                    {t.termsTitle}
+                                </h5>
                                 <button
                                     type="button"
                                     className="btn-close btn-close-white"
