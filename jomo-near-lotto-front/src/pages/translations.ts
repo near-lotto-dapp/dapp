@@ -37,7 +37,7 @@ export const translations = {
         exampleTitle: "The Math of Success (Example): 📝",
         exampleText: "Imagine there are 1000 codes in total (100 NEAR). If you hold 100 codes (10 NEAR), your chance of winning is exactly 10%. If you win, you'll get 97 NEAR, which is 9.7 times your initial contribution!",
         feeDescription: "This small fee helps us cover server costs, ensure smart contract security, and develop new features for the JOMO Pool community. No Hidden Fees!",
-        shortDisclaimer: "By participating, you confirm you are 18+ and not a resident of restricted jurisdictions (e.g., USA). JOMO Pool is a decentralized protocol; use it at your own risk.",
+        shortDisclaimer: "By participating, you confirm you are 18+ and not a resident of restricted jurisdictions (e.g., USA). JOMO Pool is a decentralized protocol, use it at your own risk.",
         fullTerms: "1. General: JOMO Pool is a decentralized protocol built on the NEAR blockchain. By using this interface, you acknowledge that the developers provide only the front-end access to the smart contract and are not responsible for your funds.\n" +
             "\n" +
             "2. Age Requirement: You must be at least 18 years old (or the legal age of majority in your jurisdiction) to participate.\n" +
