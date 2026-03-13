@@ -3,6 +3,7 @@ import {useNearWallet} from 'near-connect-hooks';
 import {translations, Language} from './translations';
 import HowItWorks from "./how_it_works";
 import About from './about';
+import {Footer} from "@/components/footer";
 
 const CONTRACT_ID = 'pool-dapp-jomo.near';
 
@@ -470,27 +471,8 @@ export default function Home() {
 
             <HowItWorks lang={lang}/>
             <About lang={lang} contractId={CONTRACT_ID}/>
+            <Footer t={t} />
 
-
-            <footer className="container mt-5 mb-4 text-center">
-                <div className="py-3 border-top" style={{ borderColor: 'rgba(255,255,255,0.05) !important' }}>
-                    <p className="footer-text m-0">
-                        <i className="bi bi-shield-check me-1 text-success"></i>
-                        Code verified on{' '}
-                        <a
-                            href="https://explorer.near.org/accounts/pool-dapp-jomo.near"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="footer-link"
-                        >
-                            NEAR Explorer
-                        </a>
-                    </p>
-                    <p className="footer-text mt-1" style={{ fontSize: '0.7rem' }}>
-                        Built on NEAR Protocol. 2026 JOMO Pool Codes.
-                    </p>
-                </div>
-            </footer>
         </main>
     );
 }
