@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 export const Footer = ({ t }: { t: any }) => {
-    // Створюємо стан для керування видимістю модального вікна
     const [showTerms, setShowTerms] = useState(false);
 
     return (
@@ -33,17 +32,17 @@ export const Footer = ({ t }: { t: any }) => {
                         </a>
                     </p>
 
-                    <p className="footer-text mt-2 px-3" style={{ fontSize: '0.75rem', maxWidth: '700px', margin: '0 auto', opacity: 0.5, lineHeight: '1.4' }}>
+                    <p className="footer-text mt-2 px-3" style={{ fontSize: '0.75rem', maxWidth: '700px', margin: '0 auto', color: '#cbd5e1', opacity: 0.7, lineHeight: '1.4' }}>
                         {t.shortDisclaimer}
                     </p>
 
-                    <p className="footer-text mt-3" style={{ fontSize: '0.7rem', opacity: 0.4 }}>
+                    <p className="footer-text mt-3" style={{ fontSize: '0.7rem', color: '#ffffff', opacity: 0.5 }}>
                         Built on NEAR Protocol. 2026 JOMO Pool Codes.
                     </p>
                 </div>
             </footer>
 
-            {/* Модальне вікно для Terms & Conditions */}
+            {/* Terms & Conditions */}
             {showTerms && (
                 <div
                     className="modal d-block"
@@ -58,7 +57,7 @@ export const Footer = ({ t }: { t: any }) => {
                         <div
                             className="modal-content"
                             style={{
-                                backgroundColor: '#0a192f', // Темно-синій під стиль сайту
+                                backgroundColor: '#0a192f',
                                 border: '1px solid rgba(84, 214, 255, 0.2)',
                                 color: '#fff',
                                 borderRadius: '12px'
@@ -73,7 +72,7 @@ export const Footer = ({ t }: { t: any }) => {
                                 ></button>
                             </div>
                             <div className="modal-body text-start">
-                                {/* whiteSpace: 'pre-wrap' дозволяє відображати переноси рядків (\n) з твого тексту */}
+                                {/* whiteSpace: 'pre-wrap' */}
                                 <p style={{ fontSize: '0.9rem', color: '#cbd5e1', whiteSpace: 'pre-wrap', lineHeight: '1.6' }}>
                                     {t.fullTerms}
                                 </p>
