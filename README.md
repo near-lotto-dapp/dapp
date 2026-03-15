@@ -35,6 +35,21 @@ JOMO Pool Codes is a fully decentralized, transparent prize pool built on the **
 * **Web3 Integration:** `near-api-js`, `near-connect-hooks`
 * **Deployment:** Vercel (Frontend), NEAR Mainnet (Contract)
 
+## 📄 License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+
+## ⚖️ Legal Disclaimer
+
+**PLEASE READ CAREFULLY:**
+
+* **Experimental Software:** JOMO Pool is a decentralized Web3 application. The smart contracts and frontend are provided "as is" and "as available".
+* **No Financial Advice:** Nothing in this repository or on the live website constitutes financial, legal, or investment advice.
+* **User Responsibility:** You are solely responsible for your funds and for complying with your local laws. By using this software, you confirm you are 18+ and not located in a prohibited jurisdiction (e.g., USA, China).
+* **No Liability:** The developers shall not be liable for any damages, loss of funds, or issues arising from the use of this software, including but not limited to smart contract vulnerabilities or network congestion.
+* **Staking Risks:** (For the future No-Loss version) Users must understand NEAR Protocol's staking mechanics, including the standard 50-70 hour unbonding period for withdrawals.
+
 ## 🚀 Local Development
 
 ### Prerequisites
@@ -52,20 +67,3 @@ npm install
 
 # Start the development server
 npm run dev
-
-## 📄 License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
-
----
-*Built with 💻 and 🦀 by Crypto JOMO*
-
-## ⚖️ Legal Disclaimer
-
-**PLEASE READ CAREFULLY:**
-
-* **Experimental Software:** JOMO Pool is a decentralized Web3 application. The smart contracts and frontend are provided "as is" and "as available".
-* **No Financial Advice:** Nothing in this repository or on the live website constitutes financial, legal, or investment advice.
-* **User Responsibility:** You are solely responsible for your funds and for complying with your local laws. By using this software, you confirm you are 18+ and not located in a prohibited jurisdiction (e.g., USA, China).
-* **No Liability:** The developers shall not be liable for any damages, loss of funds, or issues arising from the use of this software, including but not limited to smart contract vulnerabilities or network congestion.
-* **Staking Risks:** (For the future No-Loss version) Users must understand NEAR Protocol's staking mechanics, including the standard 50-70 hour unbonding period for withdrawals.
