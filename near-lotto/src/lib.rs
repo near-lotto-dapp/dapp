@@ -195,3 +195,146 @@ impl LotteryPool {
         assert_eq!(env::predecessor_account_id(), self.owner_id, "Owner only");
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use near_sdk::test_utils::VMContextBuilder;
+    use near_sdk::testing_env;
+
+    // Helper function to create a basic transaction context
+    fn get_context(predecessor: AccountId, deposit: NearToken) -> VMContextBuilder {
+        let mut builder = VMContextBuilder::new();
+        builder
+            .current_account_id("pool.near".parse().unwrap())
+            .predecessor_account_id(predecessor)
+            .attached_deposit(deposit);
+        builder
+    }
+
+    fn owner() -> AccountId {
+        "owner.near".parse().unwrap()
+    }
+
+    fn user1() -> AccountId {
+        "alice.near".parse().unwrap()
+    }
+
+    fn user2() -> AccountId {
+        "bob.near".parse().unwrap()
+    }
+
+    #[test]
+    fn test_initialization() {
+        let context = get_context(owner(), NearToken::from_near(0));
+        testing_env!(context.build());
+
+        let contract = LotteryPool::new(owner());
+
+        assert_eq!(contract.owner_id, owner());
+        assert_eq!(contract.total_pool, NearToken::from_near(0));
+        assert_eq!(contract.tickets.len(), 0);
+        assert!(contract.history.is_empty());
+        assert!(contract.last_winner.is_none());
+    }
+
+    #[test]
+    fn test_buy_tickets_success() {
+        let mut context = get_context(user1(), NearToken::from_millinear(100)); // 0.1 NEAR
+        testing_env!(context.build());
+
+        let mut contract = LotteryPool::new(owner());
+        contract.buy_tickets();
+
+        assert_eq!(contract.tickets.len(), 1);
+        assert_eq!(contract.tickets[0], user1());
+        assert_eq!(contract.total_pool, NearToken::from_millinear(100));
+
+        // Buy 2 more tickets for 0.2 NEAR from another user
+        context.predecessor_account_id(user2()).attached_deposit(NearToken::from_millinear(200));
+        testing_env!(context.build());
+        contract.buy_tickets();
+
+        assert_eq!(contract.tickets.len(), 3);
+        assert_eq!(contract.total_pool, NearToken::from_millinear(300));
+    }
+
+    #[test]
+    #[should_panic(expected = "Deposit too small for a ticket (min 0.1 NEAR)")]
+    fn test_buy_tickets_insufficient_funds() {
+        let context = get_context(user1(), NearToken::from_millinear(50)); // 0.05 NEAR (insufficient)
+        testing_env!(context.build());
+
+        let mut contract = LotteryPool::new(owner());
+        // Should panic due to insufficient attached deposit
+        contract.buy_tickets();
+    }
+
+    #[test]
+    fn test_draw_winner_empty_pool_postpones() {
+        let mut context = get_context(owner(), NearToken::from_near(0));
+        context.block_timestamp(1_000_000_000);
+        testing_env!(context.build());
+
+        let mut contract = LotteryPool::new(owner());
+        let initial_draw_time = contract.next_draw_time_ms;
+
+        context.block_timestamp(initial_draw_time * 1_000_000);
+        testing_env!(context.build()); // Оновлюємо середовище з новим часом
+
+        contract.draw_winner();
+
+        assert!(contract.next_draw_time_ms > initial_draw_time);
+        assert_eq!(contract.tickets.len(), 0);
+        assert!(contract.last_winner.is_none());
+    }
+
+    #[test]
+    fn test_draw_winner_with_tickets() {
+        // 1. User buys a ticket
+        let mut context = get_context(user1(), NearToken::from_millinear(100));
+        testing_env!(context.build());
+        let mut contract = LotteryPool::new(owner());
+        contract.buy_tickets();
+
+        // 2. Owner conducts the draw
+        // Must add random_seed for env::random_seed() to work properly in tests
+        context.predecessor_account_id(owner()).attached_deposit(NearToken::from_near(0)).random_seed([42; 32]);
+        testing_env!(context.build());
+
+        contract.draw_winner();
+
+        // 3. Check the results
+        // Pool should be cleared
+        assert_eq!(contract.tickets.len(), 0);
+        assert_eq!(contract.total_pool, NearToken::from_near(0));
+
+        // Statistics should be updated (3% fee, 97% prize)
+        let total_pool_yocto = 100_000_000_000_000_000_000_000u128; // 0.1 NEAR
+        let expected_fee = (total_pool_yocto * 3) / 100;
+        let expected_prize = total_pool_yocto - expected_fee;
+
+        assert_eq!(contract.total_fee_earned.as_yoctonear(), expected_fee);
+        assert_eq!(contract.total_won_all_time.as_yoctonear(), expected_prize);
+
+        // Check history and the last winner record
+        assert_eq!(contract.history.len(), 1);
+        assert_eq!(contract.history[0].winner_id, user1());
+        assert!(contract.last_winner.is_some());
+        assert_eq!(contract.last_winner.unwrap().account_id, user1());
+    }
+
+    #[test]
+    #[should_panic(expected = "Owner only")]
+    fn test_draw_winner_not_owner() {
+        let context = get_context(user1(), NearToken::from_millinear(100));
+        testing_env!(context.build());
+
+        let mut contract = LotteryPool::new(owner());
+        contract.buy_tickets();
+
+        // Attempt to call draw_winner as user1 (not the owner)
+        // Should panic with "Owner only" message
+        contract.draw_winner();
+    }
+}
