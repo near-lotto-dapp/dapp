@@ -1,7 +1,6 @@
 use near_sdk::borsh::{BorshDeserialize, BorshSerialize};
 use near_sdk::{env, near_bindgen, AccountId, Promise, PanicOnDefault, NearToken};
 use near_sdk::serde::{Serialize, Deserialize};
-use near_sdk::json_types::U128;
 
 #[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, Clone)]
 #[borsh(crate = "near_sdk::borsh")]
@@ -81,14 +80,18 @@ impl LotteryPool {
         }
 
         let end = std::cmp::min(start + limit, total);
-        // Повертаємо частину вектора з адресами
         self.tickets[start..end].to_vec()
     }
 
     pub fn draw_winner(&mut self) {
         self.assert_owner();
         let tickets_len = self.tickets.len();
-        assert!(tickets_len > 0, "No tickets");
+
+        if tickets_len == 0 {
+            env::log_str("No tickets today. Draw postponed to the next period! 🕒");
+            self.next_draw_time_ms = env::block_timestamp_ms() + self.draw_period_ms;
+            return;
+        }
 
         let seed = env::random_seed();
         let mut seed_bytes = [0u8; 8];
